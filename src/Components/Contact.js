@@ -1,84 +1,19 @@
 import React, { Component } from 'react';
-import { Breadcrumb , BreadcrumbItem , Form , FormGroup , Button , Col , Label  ,Input , FormFeedback} from 'reactstrap';
-import {Link} from 'react-router-dom'
+import { Breadcrumb , BreadcrumbItem , Button , Col , Label  , Row} from 'reactstrap';
+import {Link} from 'react-router-dom';
+import {Control , LocalForm , Error } from 'react-redux-form';
 
 
 class Contact extends Component {
 
     constructor(props) {
         super(props)
-
-        this.state ={
-            firstname : '',
-            lastname : '',
-            telnum : '',
-            email : '',
-            message : '',
-            agree : false,
-            contactType : 'Tel.',
-            touched : {
-                firstname : false,
-                lastname : false,
-                telnum : false,
-                email : false
-            }
-        }
-        this.handleInputChange = this.handleInputChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleblur = this.handleblur.bind(this)
     }
-
-    handleInputChange = (event) => {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name; 
-
-        this.setState({
-            [name] : value
-        })
-    }
-
-    handleSubmit = (event) => {
-        alert(JSON.stringify(this.state))
-        event.preventDefault();
-    }
-
-    handleblur = (field) => (evt) => {
-            this.setState({
-                touched : {...this.state.touched , [field] : true}
-            })
-    }
-
-    validate(firstname , lastname , telnum , email){
-        const errors = {
-            firstname : '',
-            lastname : '',
-            telnum : '',
-            email : '',
-        }
-        if(this.state.touched.firstname && firstname.length < 3)
-        errors.firstname = "First name is short"
-        else if(this.state.touched.firstname && firstname.length > 10)
-        errors.firstname = "First name is long"
-
-        if(this.state.touched.lastname && lastname.length < 3)
-        errors.lastname = "Last name is short"
-        else if(this.state.touched.lastname && lastname.length > 10)
-        errors.lastname = "Last name is long"
-
-        const reg = /^\d+$/;
-        if(this.state.touched.telnum && !reg.test(telnum))
-        errors.telnum = "write only in number"
-       
-
-        if(this.state.touched.email && email.split('').filter(x => x === '@') .length !==1)
-        errors.email = "Email should contain a @ sign"
-
-        return errors;
-
+    handleSubmit(values){
+        alert(JSON.stringify(values))
     }
     render(){
-    const errors = this.validate(this.state.firstname, this.state.lastname , this.state.telnum , this.state.email)
     return(
         <div className="container">
         <div className="row">
@@ -121,92 +56,76 @@ class Contact extends Component {
                     <h3>Send Your Feedback</h3>
                 </div>
                 <div className="col-12 col-md-9">
-                    <Form onSubmit={this.handleSubmit}>
-                        <FormGroup row>
+                    <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
+                        <Row className="form-group">
                             <Label htmlFor="firstname" md={2}>First Name</Label>
-                            <Col md={10}><Input type="text" id="firstname" 
-                            name="firstname" 
-                            value={this.state.firstName}
-                            valid={errors.firstname === ''}
-                            invalid={errors.firstname !== ''}
-                            onBlur={this.handleblur('firstname')}
-                            placeholder="First Name " 
-                            onChange={this.handleInputChange}/>
-                            <FormFeedback>{errors.firstname}</FormFeedback>
+                            <Col md={10}>
+                            <Control.text model=".firstname" id="firstname" 
+                            name="firstname" className="form-control"
+                            placeholder="First Name "/>
                             </Col>
-                        </FormGroup>
-                        <FormGroup row>
-                            <Label htmlFor="lastname" md={2}>Last Name</Label>
-                            <Col md={10}><Input type="text" id="lastname" 
-                            name="lastname" 
-                            value={this.state.lastName}
-                            valid={errors.lastname === ''}
-                            invalid={errors.lastname !== ''} 
-                            onBlur={this.handleblur('lastname')}
-                            onChange={this.handleInputChange}
+                        </Row>
+                        <Row className="form-group">
+                            <Label htmlFor=".lastname" md={2}>Last Name</Label>
+                            <Col md={10}>
+                            <Control.text model=".lastname" id="lastname" 
+                            name="lastname"  className="form-control"
+                           
                             placeholder="Last Name " />
-                             <FormFeedback>{errors.lastname}</FormFeedback>
+                          
                             </Col>
-                        </FormGroup>
-                        <FormGroup row>
-                            <Label htmlFor="email" md={2}>E - Mail</Label>
-                            <Col md={10}><Input type="text" id="email" 
-                            name="email" 
-                            value={this.state.email}
-                            onBlur={this.handleblur('email')}
-                            valid={errors.email === ''}
-                            invalid={errors.email !== ''}
-                            onChange={this.handleInputChange}
+                            </Row>
+                        <Row className="form-group">
+                            <Label htmlFor=".email" md={2}>E - Mail</Label>
+                            <Col md={10}>
+                            <Control.text model=".telnum" id="email" 
+                            name="email"  className="form-control"
+                           
                             placeholder="Your Email Address" />
-                             <FormFeedback>{errors.email}</FormFeedback>
+                          
                             </Col>
-                        </FormGroup>
-                        <FormGroup row>
-                            <Label htmlFor="telnum" md={2}>Tel. Number</Label>
-                            <Col md={10}><Input type="text" id="telnum" 
-                            name="telnum" 
-                            value={this.state.telnum}
-                            onBlur={this.handleblur('telnum')}
-                            valid={errors.telnum === ''}
-                            invalid={errors.telnum !== ''}
-                            onChange={this.handleInputChange}
+                            </Row>
+                        <Row className="form-group">
+                            <Label htmlFor=".telnum" md={2}>Tel. Number</Label>
+                            <Col md={10}>
+                            <Control.text model=".email" id="telnum" 
+                            name="telnum"  className="form-control"
+                         
                             placeholder="Tel Number..." />
-                             <FormFeedback>{errors.telnum}</FormFeedback>
+                      
                             </Col>
-                        </FormGroup>
-                        <FormGroup row>
+                            </Row>
+                        <Row className="form-group">
                             <Col md={{size : 6 , offset : 2}}>
-                               <FormGroup check>
+                               <div className="form-check"> 
                                    <Label check>
-                                    <input type="checkbox" name="agree" checked={this.state.agree}  onChange={this.handleInputChange} />
-                                    <strong> {'  '} May we contact you ?</strong>
+                                    <Control.checkbox model=".agree" name="agree"  className="form-check-input"/>
+                                    {'  '}<strong> May we contact you ?</strong>
                                    </Label>
-                               </FormGroup>
+                               </div>
                             </Col>
                             <Col md={{size : 3 , offset : 1}}>
-                               <Input type="select" name="contactType" 
-                                onChange={this.handleInputChange}
-                               value={this.state.contactType}>
+                               <Control.select model=".contactType" name="contactType" className="form-control">
                                 <option>Tel.no</option>
                                 <option>E-mail</option>
-                                </Input> 
+                                </Control.select> 
                             </Col>
-                        </FormGroup>
-                        <FormGroup row>
+                            </Row>
+                        <Row className="form-group">
                             <Label htmlFor="message" md={2}>Message</Label>
-                            <Col md={10}><Input type="textarea" id="message" 
+                            <Col md={10}>
+                            <Control.textarea model=".message" id="message" className="form-control"
                             name="message" 
-                            value={this.state.message}
-                            onChange={this.handleInputChange}
                             placeholder="Your Message" />
                             </Col>
-                        </FormGroup>
-                        <FormGroup row>
+                            </Row>
+                        <Row className="form-group">
                            <Col md={{size :10 , offset : 2}}>
                                <Button type="submit" className="btn btn-danger">Submit</Button>
                            </Col>
-                        </FormGroup>
-                    </Form>
+                           </Row>
+                        
+                    </LocalForm>
                 </div>
             </div>
         </div>
