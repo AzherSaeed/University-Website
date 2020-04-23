@@ -23,7 +23,7 @@ class Header extends Component {
       <Navbar dark expand="md">
         <div className="container">
         <NavbarToggler onClick={this.ToggleNav}/>
-          <NavbarBrand className="mr-5" href="/"><img src='assets/images/logo.png'
+          <NavbarBrand className="mr-5" href="/"><img src='assets/images/restorent.png'
            height="30" width="41" alt='Ristorante Con Fusion' /></NavbarBrand>
            <Collapse isOpen={this.state.isNavOpen} navbar>
         <Nav navbar>
@@ -48,9 +48,9 @@ class Header extends Component {
       <Jumbotron>
            <div className="container">
                <div className="row row-header">
-                   <div className="col-12 col-sm-6">
-                       <h1>Azher Saeed Ch</h1>
-                       <p>We take inspiration from the World's best cuisines, and create a unique fusion experience. Our lipsmacking creations will tickle your culinary senses!</p>
+                   <div className="col-12 col-sm-7">
+                       <h1>Second Choice</h1>
+                       <p>Over the years, we have experimented with ingredients and recipes and perfected the art of cooking and serving. Even as we add a few new dishes to the small, select menu our patrons often return for their favourites - whether it is our unique style of grilled calamari or carpaccio of beef with herbs. We continue to set ourselves higher standards, both in the quality of food we prepare and the way we serve it.</p>
                    </div>
                </div>
            </div>
