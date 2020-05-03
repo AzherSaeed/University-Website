@@ -3,6 +3,7 @@ import {Card , CardBody , CardImg , CardText ,CardTitle , Breadcrumb , Breadcrum
 Modal , ModalBody , ModalHeader , Row , Label,Col } from 'reactstrap'
 import { Link } from 'react-router-dom';
 import { LocalForm, Control } from 'react-redux-form';
+import {Loading} from './LoadingCom';
 
 function RenderDish  ({dish})  {
     return(
@@ -111,7 +112,25 @@ class CommentForm extends Component {
 
 
 const DishDetail = (props) => {
-  if (props.dish != null ){
+    if (props.isLoading) {
+        return(
+            <div className="container">
+                <div className="row">            
+                    <Loading />
+                </div>
+            </div>
+        );
+    }
+    else if (props.errMess) {
+        return(
+            <div className="container">
+                <div className="row">            
+                    <h4>{props.errMess}</h4>
+                </div>
+            </div>
+        );
+    }    
+  if (props.dish != null )
       return(
     <div className="container">
         <div className="row">
@@ -130,7 +149,7 @@ const DishDetail = (props) => {
          </div>
         </div>
       )
-  }
+  
   else {
       return (
          <div></div>
