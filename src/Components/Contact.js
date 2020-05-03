@@ -144,7 +144,7 @@ class Contact extends Component {
                             placeholder="Tel Number..." 
                             validators = {{
                                 required ,
-                                maxLength : maxLength(10),
+                                maxLength : maxLength(12),
                                 minLength :  minLength(3),
                                 isNumber
                             }}/>

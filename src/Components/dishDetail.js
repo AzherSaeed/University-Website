@@ -1,6 +1,9 @@
 import React from 'react'
 import {Card , CardBody , CardImg , CardText ,CardTitle , Breadcrumb , BreadcrumbItem  } from 'reactstrap'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { CommentForm } from './CommentForm';
+
+
 function RenderDish  ({dish})  {
     return(
         <div className="col-12 col-md-5 mt-2">
@@ -13,7 +16,7 @@ function RenderDish  ({dish})  {
         </Card>
         </div>
     )
-    
+     
 }
 
 const RenderComments = ({comments}) => {
@@ -31,13 +34,19 @@ const RenderComments = ({comments}) => {
                   </li>
                   )
               })}
+
+             
           </ul>
+          <button onClick={ () => <CommentForm name={'azher'}/>}>Comment Form</button>
+
+          
       </div>
   );
   else return(
       <div><h1>ye comment ka area ha</h1></div>
   )
 }
+
 
 const DishDetail = (props) => {
   if (props.dish != null ){
