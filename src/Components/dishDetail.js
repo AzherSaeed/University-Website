@@ -4,12 +4,14 @@ Modal , ModalBody , ModalHeader , Row , Label,Col } from 'reactstrap'
 import { Link } from 'react-router-dom';
 import { LocalForm, Control } from 'react-redux-form';
 import {Loading} from './LoadingCom';
+import { baseUrl } from '../shared/baseUrl';
+
 
 function RenderDish  ({dish})  {
     return(
         <div className="col-12 col-md-5 mt-2">
         <Card>
-        <CardImg object src={dish.image} alt={dish.name}/>
+        <CardImg object src={baseUrl + dish.image} alt={dish.name}/>
        <CardBody>
        <CardTitle heading>{dish.name}</CardTitle>
         <CardText>{dish.description}</CardText>
