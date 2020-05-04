@@ -8,8 +8,9 @@ import Contact from './Contact';
 import About from './About';
 import {connect } from 'react-redux'
 import {Switch , Route , Redirect , withRouter} from 'react-router-dom';
-import { addComment , fetchDishes , fetchComments , fetchPromos , fetchLeaders } from '../redux/ActionCreator';
-import {actions} from 'react-redux-form'
+import { postComment , fetchDishes , fetchComments , fetchPromos , fetchLeaders } from '../redux/ActionCreator';
+import {actions} from 'react-redux-form';
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 const mapStateToProps = state => {
   return{
@@ -22,7 +23,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addComment : (dishId , author , comment , rating) => dispatch(addComment(dishId , author , comment , rating)),
+  postComment : (dishId , author , comment , rating) => dispatch(postComment(dishId , author , comment , rating)),
   fetchDishes : () => {dispatch(fetchDishes())},
   fetchPromos : () => {dispatch(fetchPromos())},
   fetchComments : () => {dispatch(fetchComments())},
@@ -72,13 +73,15 @@ class Main extends Component {
           comments={this.props.comments.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId , 10))}
           commentsErrMess={this.props.comments.errMess}
 
-          addComment = {this.props.addComment}
+          postComment = {this.props.postComment}
         />
       )
     }
     return (
       <div>
          <Header/>
+         <TransitionGroup>
+         <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
          <Switch>
          <Route exact path="/menu" component={() => <Menu dishes={this.props.dishes}/>}/>
          <Route path="/menu/:dishId" component={dishWithId}/>
@@ -87,6 +90,8 @@ class Main extends Component {
          <Route path="/" component={HomePage}/>
          <Redirect to="/home"/>
          </Switch>
+         </CSSTransition>
+         </TransitionGroup>
         <Footer/>
        
       </div>

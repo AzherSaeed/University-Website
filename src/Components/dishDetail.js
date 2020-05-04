@@ -5,11 +5,15 @@ import { Link } from 'react-router-dom';
 import { LocalForm, Control } from 'react-redux-form';
 import {Loading} from './LoadingCom';
 import { baseUrl } from '../shared/baseUrl';
-
+import { FadeTransform , Fade , Stagger } from 'react-animation-components'
 
 function RenderDish  ({dish})  {
     return(
         <div className="col-12 col-md-5 mt-2">
+            <FadeTransform in 
+                transformProps = {{
+                    exitTransform : 'scale(0.5) translateY(-50%)'
+                }}>
         <Card>
         <CardImg object src={baseUrl + dish.image} alt={dish.name}/>
        <CardBody>
@@ -17,28 +21,32 @@ function RenderDish  ({dish})  {
         <CardText>{dish.description}</CardText>
        </CardBody>
         </Card>
+        </FadeTransform>
         </div>
     )}
 
-const RenderComments = ({comments , addComment , dishId }) => {
+const RenderComments = ({comments , postComment , dishId }) => {
   if (comments != null )
   return (
       <div className="col-12 col-md-5 m-1">
           <h4>Comments</h4>
           <ul className="list-unstyled">
+              <Stagger in>
               {comments.map((comment) => {
                   return(
-                  <li key={comment.id}>
-                  <p>{comment.comment}</p>
-                  <p>-- {comment.author}</p>
-                  <p>-- {comment.date}</p>
-                  </li>
+                  <Fade in>
+                    <li key={comment.id}>
+                    <p>{comment.comment}</p>
+                    <p>-- {comment.author}</p>
+                    <p>-- {comment.date}</p>
+                    </li>
+                  </Fade>
                   )
               })}
-
+            </Stagger>
              
           </ul>
-          <CommentForm dishId={dishId} addComment={addComment}/>
+          <CommentForm dishId={dishId} postComment={postComment}/>
       </div>
   );
   else return(
@@ -67,7 +75,7 @@ class CommentForm extends Component {
 
     handleSubmitComment=(value)=>{
         this.toggleModal();
-        this.props.addComment(this.props.dishId , value.rating , value.author , value.comment)
+        this.props.postComment(this.props.dishId , value.rating , value.author , value.comment)
     }
 
 
@@ -145,7 +153,7 @@ const DishDetail = (props) => {
     <div className="row">
          <RenderDish dish={props.dish}/>
          <RenderComments comments={props.comments}
-         addComment={props.addComment}
+         postComment={props.postComment}
          dishId={props.dish.id}
          />
          </div>
