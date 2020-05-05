@@ -194,3 +194,43 @@ export const addLeaders = (leaders) => ({
     type : ActionType.ADD_LEADERS,
     payload : leaders
 });
+
+            
+// there is area of feedback Form.......
+
+export const postFeedback = (feedback) => {
+  let newFeedback = { ...feedback };
+  newFeedback.date = new Date().toISOString();
+
+  return fetch(baseUrl + 'feedback', {
+    method: 'POST',
+    body: JSON.stringify(newFeedback),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'same-origin',
+  })
+    .then(
+      (response) => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error(
+            'Error ' + response.status + ' : ' + response.statusText
+          );
+          error.response = response;
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error.message);
+        throw errMess;
+      }
+    )
+    .then((response) => response.json())
+    .then((response) => alert(JSON.stringify(response)))
+    .catch((error) => {
+      console.log('Post Feedback ', error.message);
+      alert('Your FeedBack could not be posted\n Error: ' + error.message);
+    });
+};

@@ -8,7 +8,7 @@ import Contact from './Contact';
 import About from './About';
 import {connect } from 'react-redux'
 import {Switch , Route , Redirect , withRouter} from 'react-router-dom';
-import { postComment , fetchDishes , fetchComments , fetchPromos , fetchLeaders } from '../redux/ActionCreator';
+import { postComment , fetchDishes , fetchComments , fetchPromos , fetchLeaders , postFeedback } from '../redux/ActionCreator';
 import {actions} from 'react-redux-form';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
@@ -28,7 +28,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchPromos : () => {dispatch(fetchPromos())},
   fetchComments : () => {dispatch(fetchComments())},
   fetchLeaders : () => {dispatch(fetchLeaders())},
-  resetFeedbackForm : () => {dispatch(actions.reset('feedback'))}
+  resetFeedbackForm : () => {dispatch(actions.reset('feedback'))},
+  postFeedback: (feedback) => dispatch(postFeedback(feedback)),
 })
 class Main extends Component {
 
@@ -85,7 +86,9 @@ class Main extends Component {
          <Switch>
          <Route exact path="/menu" component={() => <Menu dishes={this.props.dishes}/>}/>
          <Route path="/menu/:dishId" component={dishWithId}/>
-         <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm}/>}/>
+         <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm}
+         postFeedback={this.props.postFeedback}
+         />}/>
          <Route exact path="/aboutus" component={() => <About leaders={this.props.leaders.leaders}/>}/>
          <Route path="/" component={HomePage}/>
          <Redirect to="/home"/>
